@@ -1,7 +1,5 @@
 __author__ = 'rzucker'
 
-# Python program to solve Project Euler problem #54
-
 import collections
 import operator
 
