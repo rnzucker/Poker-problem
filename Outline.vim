@@ -9,6 +9,20 @@ Write routines to detect each of these conditions:
  2 - One pair            - 4 values
  1 - High card (default) - 5 values
 
+Basic algorithm:
+  - Read each pair of hands from a file
+  - Convert into a pair of two dimensional arrays for each hand.
+    Use numbers for suits and values for easier computation
+    Two values per indice; one for suit, one for card value.
+    Also have a one dimensional array of card values
+    Sort the 2D arrays by card value
+  - Using Counters, determine how many of each value in the hand
+    After counting, sort to determine what occurs the most
+  - Using the sorted counts, determine the card type per the table above
+    If more than one option, additional logic to determine which one
+  - Compare hand types. If different, determine winner and update counts.
+    If hand types the same, use routine detailed below.
+
 Overall routine (hand_type) that calls each of these routines in order,
 returning code for type
 
