@@ -24,10 +24,8 @@ in each hand tells you.
  2 - One pair            - 4 values
  1 - High card (default) - 5 values
 
-After the input is processed to be numerical, counted, and sorted, then need to
-call overall routine that determines the winner.
 Overall routine (hand_type) that calls each of these routines in order,
-returning code for who wins.
+returning code for type
 
 Winner_routine:
     hand1_type = hand_type(hand1)

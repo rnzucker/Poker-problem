@@ -5,14 +5,18 @@ __author__ = 'rzucker'
 # how many are won by hand one. There are no ties.
 # 
 # Much of the code is not as efficient as could be. It was written
-# with understanding and maintainability in mind.
+# with understanding and maintainability in mind. Parts of the code
+# are described in the adjacent file outline.vim
 
 import collections
 import operator
 
-CARD_VALS = "_123456789TJQKA" # Used for converting to 2..14
+CARD_VALS = "_123456789TJQKA" # Used for converting the card values to 2..14
 SUIT_VALS = "CDHS"            # Used for converting suits to 0..3
-# Used to be a constant for hand types for comparison
+
+# Used to be a constant for hand types for comparison.
+# This dictionary isn't truly necessary, but it makes for easier
+# to understand code.
 HAND_TYPE_VALS = {'Straight Flush': 9,
                   '4 Kind':         8,
                   'Full House':     7,
@@ -51,6 +55,7 @@ def straight(hand):
             return False
     return True
 
+
 def flush(hand):
     # Returns true if hand is a flush; i.e., suit is same for all five cards
     # hand is a two dimension array, 5x2, with a single hand
@@ -63,6 +68,7 @@ def flush(hand):
             return False
     return True
 
+
 def straight_flush(hand):
     # Call the straight and flush functions. Could save computation by using a combined function
     # to figure out all three, but this is clearer
@@ -70,20 +76,23 @@ def straight_flush(hand):
         return True
     return False
 
+
 def card_val_convert(card):
     # Convert the card value into an integer, two to fourteen
     card_val = CARD_VALS.find(card)
     return card_val
+
 
 def card_suit_convert(card):
     # Convert the suit into an integer, zero to three
     card_suit_num = SUIT_VALS.find(card)
     return card_suit_num
 
+
 def hand_type(hand, card_counts):
-    # Determine the type of hand. Start with the number of unique card values
+    # Determine the type of hand.
     # Leverage straight() and flush() functions
-    # Also leverage count of most frequently occurring pip value
+    # Also leverage count of most frequently occurring pip value in card_counts
     unique_vals = len(card_counts)
     # If there are five unique card values, then it is one of straight, flush, straight flush, or just high card
     if unique_vals == 5:
@@ -116,7 +125,9 @@ def hand_type(hand, card_counts):
     else:
         print( "Bad value for number of unique values", unique_vals)
 
+
 def two_pair_tie_breaker(hand1, hand2, counts_card1, counts_card2):
+    # Determining the winner when both hands have two pair is complicated enough to needs its own function
     # Check to see who has the highest two pair
     if counts_card1[0][0] > counts_card2[0][0]:
         return 1
@@ -137,6 +148,7 @@ def two_pair_tie_breaker(hand1, hand2, counts_card1, counts_card2):
         return -1
 
 def one_pair_tie_breaker(hand1, hand2, counts_card1, counts_card2):
+    # Determining the winner when both hands have a pair is complicated enough to needs its own function
     if counts_card1[0][0] > counts_card2[0][0]:
         return 1
     elif counts_card2[0][0] > counts_card1[0][0]:
@@ -154,6 +166,7 @@ def one_pair_tie_breaker(hand1, hand2, counts_card1, counts_card2):
 
 
 def high_card_tie_breaker(hand1, hand2, counts_card1, counts_card2):
+    # Determining the winner when just high card has enough steps to needs its own function
     for i in range(0,5):
         if hand1[i][0] > hand2[i][0]:
             return 1
