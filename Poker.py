@@ -218,16 +218,16 @@ def tie_breaker(type_of_hand, hand1, hand2, counts_card1, counts_card2):
 def main():
     hand1_wins = 0
     for line in open('poker.txt'):
-#       Use rstrip() to get rid of \n at the end
+	# Use rstrip() to get rid of \n at the end
         hands = line.rstrip().split(" ")
-#       Create a two dimensional array for hand1 and hand2
-#       One for suit, one for value for each of five cards in a hand
+	# Create a two dimensional array for hand1 and hand2
+	# One for suit, one for value for each of five cards in a hand
         hand1 = [[0 for x in range(2)] for x in range(5)]
         hand2 = [[0 for x in range(2)] for x in range(5)]
         # Need a one dimensional array for the pip values of the cards in each hand
-        hand1_vals  = [0 for x in range(5)]
-        hand2_vals  = [0 for x in range(5)]
-#       Convert each hand into numeric form
+        hand1_vals = [0 for x in range(5)]
+        hand2_vals = [0 for x in range(5)]
+	# Convert each hand into numeric form
         for i in range(5):
             # Convert the text form of the pip values to numbers, two to 14
             hand1[i][0] = card_val_convert(  hands[i]  [0])
@@ -240,6 +240,7 @@ def main():
             hand2[i][1] = card_suit_convert( hands[i+5][1])
         hand1.sort(reverse=True)
         hand2.sort(reverse=True)
+	# Create a counter (hash table) that counts how many of each card value in each hand
         cards1 = collections.Counter()
         cards2 = collections.Counter()
         for each_card in hand1_vals:
@@ -248,7 +249,8 @@ def main():
         for each_card in hand2_vals:
             # Increment count of hash table value for card values in hand2
             cards2 [each_card] += 1
-        # print ("Cards dup", cards2)
+        # Convert the counter into a dictionary, and sort by most common appearing,
+	# card value and return as a list
         counts_card1 = sorted(cards1.items(), key=operator.itemgetter(1),reverse=True)
         counts_card2 = sorted(cards2.items(), key=operator.itemgetter(1),reverse=True)
         # print ("Hand 1 is", hand1, ", Hand 2 is", hand2)
