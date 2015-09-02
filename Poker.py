@@ -9,8 +9,8 @@ are described in the adjacent file outline.vim
 '''
 __author__ = 'rzucker'
 
-import collections
-import operator
+from collections import Counter
+from operator import itemgetter
 
 CARD_VALS = "_123456789TJQKA" # Used for converting the card values to 2..14
 SUIT_VALS = "CDHS"            # Used for converting suits to 0..3
@@ -248,8 +248,8 @@ def main():
         hand1.sort(reverse=True)
         hand2.sort(reverse=True)
 	# Create a counter (hash table) that counts how many of each card value in each hand
-        cards1 = collections.Counter()
-        cards2 = collections.Counter()
+        cards1 = Counter()
+        cards2 = Counter()
         for each_card in hand1_vals:
             # Increment count of hash table value for card values in hand1
             cards1[each_card] += 1
@@ -258,8 +258,8 @@ def main():
             cards2[each_card] += 1
         # Convert the counter into a dictionary, and sort by most common appearing,
 	# card value and return as a list
-        counts_card1 = sorted(cards1.items(), key=operator.itemgetter(1), reverse=True)
-        counts_card2 = sorted(cards2.items(), key=operator.itemgetter(1), reverse=True)
+        counts_card1 = sorted(cards1.items(), key=itemgetter(1), reverse=True)
+        counts_card2 = sorted(cards2.items(), key=itemgetter(1), reverse=True)
         # print("Hand 1 is", hand1, ", Hand 2 is", hand2)
         print("Hand 1 type is", DEBUG_HAND_TYPE_STRING[hand_type(hand1, counts_card1)], "   "
                "Hand 2 type is", DEBUG_HAND_TYPE_STRING[hand_type(hand2, counts_card2)])
