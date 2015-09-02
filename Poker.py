@@ -131,7 +131,7 @@ def hand_type(hand, card_counts):
         print("Bad value for number of unique values", unique_vals)
 
 
-def two_pair_tie_breaker(hand1, hand2, counts_card1, counts_card2):
+def two_pair_tie_breaker(counts_card1, counts_card2):
     '''Determining the winner when both hands have two pair is complicated enough to needs its own function'''
     # Check to see who has the highest two pair
     if counts_card1[0][0] > counts_card2[0][0]:
@@ -170,7 +170,7 @@ def one_pair_tie_breaker(hand1, hand2, counts_card1, counts_card2):
         return -1
 
 
-def high_card_tie_breaker(hand1, hand2, counts_card1, counts_card2):
+def high_card_tie_breaker(hand1, hand2):
     '''Determining the winner when just high card has enough steps to needs its own function'''
     for i in range(0, 5):
         if hand1[i][0] > hand2[i][0]:
@@ -212,11 +212,11 @@ def tie_breaker(type_of_hand, hand1, hand2, counts_card1, counts_card2):
         else:
             return 2
     elif type_of_hand == 3:
-        return two_pair_tie_breaker(hand1, hand2, counts_card1, counts_card2)
+        return two_pair_tie_breaker(counts_card1, counts_card2)
     elif type_of_hand == 2:
         return one_pair_tie_breaker(hand1, hand2, counts_card1, counts_card2)
     elif type_of_hand == 1:
-        return high_card_tie_breaker(hand1, hand2, counts_card1, counts_card2)
+        return high_card_tie_breaker(hand1, hand2)
     else:
         print("Illegal hand type (over nine or less than one")
         return -1
@@ -229,11 +229,11 @@ def main():
         hands = line.rstrip().split(" ")
 	# Create a two dimensional array for hand1 and hand2
 	# One for suit, one for value for each of five cards in a hand
-        hand1 = [[0 for x in range(2)] for x in range(5)]
-        hand2 = [[0 for x in range(2)] for x in range(5)]
+        hand1 = [[0, 0]] * 5
+        hand2 = [[0, 0]] * 5
         # Need a one dimensional array for the pip values of the cards in each hand
-        hand1_vals = [0 for x in range(5)]
-        hand2_vals = [0 for x in range(5)]
+        hand1_vals = [0] * 5
+        hand2_vals = [0] * 5
 	# Convert each hand into numeric form
         for i in range(5):
             # Convert the text form of the pip values to numbers, two to 14
