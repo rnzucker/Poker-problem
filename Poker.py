@@ -60,10 +60,10 @@ def straight(hand):
     return True
 
 
-# Returns true if hand is a flush; i.e., suit is same for all five cards
-# hand is a two dimension array, 5x2, with a single hand
 def flush(hand):
-    #
+    '''Returns true if hand is a flush; i.e., suit is same for all five cards
+    hand is a two dimension array, 5x2, with a single hand
+    '''
     # set suit to that of the first card
     suit = hand[0][1]
     for i in range(1, 5):
@@ -82,21 +82,22 @@ def straight_flush(hand):
 
 
 def card_val_convert(card):
-    # Convert the card value into an integer, two to fourteen
+    '''Convert the card value into an integer, two to fourteen'''
     card_val = CARD_VALS.find(card)
     return card_val
 
 
 def card_suit_convert(card):
-    # Convert the suit into an integer, zero to three
+    '''Convert the suit into an integer, zero to three'''
     card_suit_num = SUIT_VALS.find(card)
     return card_suit_num
 
 
-# Determine the type of hand.
-# Leverage straight() and flush() functions
-# Also leverage count of most frequently occurring pip value in card_counts
 def hand_type(hand, card_counts):
+    '''Determine the type of hand.
+    Leverage straight() and flush() functions
+    Also leverage count of most frequently occurring pip value in card_counts
+    '''
     unique_vals = len(card_counts)
     # If there are five unique card values, then it is one of straight, flush, straight flush, or just high card
     if unique_vals == 5:
@@ -130,8 +131,8 @@ def hand_type(hand, card_counts):
         print("Bad value for number of unique values", unique_vals)
 
 
-# Determining the winner when both hands have two pair is complicated enough to needs its own function
 def two_pair_tie_breaker(hand1, hand2, counts_card1, counts_card2):
+    '''Determining the winner when both hands have two pair is complicated enough to needs its own function'''
     # Check to see who has the highest two pair
     if counts_card1[0][0] > counts_card2[0][0]:
         return 1
@@ -151,8 +152,8 @@ def two_pair_tie_breaker(hand1, hand2, counts_card1, counts_card2):
         print("All cards match in two pairs. Illegal input")
         return -1
 
-# Determining the winner when both hands have a pair is complicated enough to needs its own function
 def one_pair_tie_breaker(hand1, hand2, counts_card1, counts_card2):
+    '''Determining the winner when both hands have a pair is complicated enough to needs its own function'''
     if counts_card1[0][0] > counts_card2[0][0]:
         return 1
     elif counts_card2[0][0] > counts_card1[0][0]:
@@ -169,8 +170,8 @@ def one_pair_tie_breaker(hand1, hand2, counts_card1, counts_card2):
         return -1
 
 
-# Determining the winner when just high card has enough steps to needs its own function
 def high_card_tie_breaker(hand1, hand2, counts_card1, counts_card2):
+    '''Determining the winner when just high card has enough steps to needs its own function'''
     for i in range(0, 5):
         if hand1[i][0] > hand2[i][0]:
             return 1
@@ -181,9 +182,10 @@ def high_card_tie_breaker(hand1, hand2, counts_card1, counts_card2):
     return -1
 
 
-# Hand type is the same for both hands. Determine who wins via tie breaker routines
-# Params: hand type, hand1 and hand2 (2D array), and sorted card count array for hand1 and hand2
 def tie_breaker(type_of_hand, hand1, hand2, counts_card1, counts_card2):
+    '''Hand type is the same for both hands. Determine who wins via tie breaker routines
+    Params: hand type, hand1 and hand2 (2D array), and sorted card count array for hand1 and hand2
+    '''
     # If the hand is a flush, straight, or straight flush
     if type_of_hand == 9 or type_of_hand == 6 or type_of_hand == 5:
         # Can determine by comparing the highest card in each hand
@@ -220,6 +222,7 @@ def tie_breaker(type_of_hand, hand1, hand2, counts_card1, counts_card2):
         return -1
 
 def main():
+    '''Determine winning poker hand from two hands read from file.'''
     hand1_wins = 0
     for line in open('poker.txt'):
 	# Use rstrip() to get rid of \n at the end
