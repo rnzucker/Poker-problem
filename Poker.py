@@ -50,7 +50,7 @@ def straight(hand):
 
     # last_card is set to highest
     last_card = hand[0][0]
-    for i in range(1,5):
+    for i in range(1, 5):
         # for next four cards make sure it is one less than the previous card
         if (last_card-1) == hand[i][0]:
             # set last card to be the latest card checked
@@ -66,7 +66,7 @@ def flush(hand):
     #
     # set suit to that of the first card
     suit = hand[0][1]
-    for i in range(1,5):
+    for i in range(1, 5):
         # check suit of each remaining card to that of the first card
         if suit != hand[i][1]:
             return False
@@ -127,7 +127,7 @@ def hand_type(hand, card_counts):
             return HAND_TYPE_VALS['Full House']
     # Without wild cards you cannot have five of a kind
     else:
-        print( "Bad value for number of unique values", unique_vals)
+        print("Bad value for number of unique values", unique_vals)
 
 
 # Determining the winner when both hands have two pair is complicated enough to needs its own function
@@ -148,7 +148,7 @@ def two_pair_tie_breaker(hand1, hand2, counts_card1, counts_card2):
     elif counts_card2[2][0] > counts_card1[2][0]:
         return 2
     else:
-        print( "All cards match in two pairs. Illegal input")
+        print("All cards match in two pairs. Illegal input")
         return -1
 
 # Determining the winner when both hands have a pair is complicated enough to needs its own function
@@ -159,25 +159,25 @@ def one_pair_tie_breaker(hand1, hand2, counts_card1, counts_card2):
         return 2
     # Pair has same value, check highest of hand one by one until mismatch
     else:
-        for i in range(0,5):
+        for i in range(0, 5):
             if hand1[i][0] > hand2[i][0]:
                 return 1
             elif hand2[i][0] > hand1[i][0]:
                 return 2
         # All cards equal
-        print( "All cards equal. Illegal input")
+        print("All cards equal. Illegal input")
         return -1
 
 
 # Determining the winner when just high card has enough steps to needs its own function
 def high_card_tie_breaker(hand1, hand2, counts_card1, counts_card2):
-    for i in range(0,5):
+    for i in range(0, 5):
         if hand1[i][0] > hand2[i][0]:
             return 1
         elif hand2[i][0] > hand1[i][0]:
             return 2
     # All cards equal
-    print( "All cards equal. Illegal input")
+    print("All cards equal. Illegal input")
     return -1
 
 
@@ -193,7 +193,7 @@ def tie_breaker(type_of_hand, hand1, hand2, counts_card1, counts_card2):
         elif hand2[0][0] > hand1[0][0]:
             return 2
         else:
-            print ("Tie in hands - bad data")
+            print("Tie in hands - bad data")
             return -1
     # Hand is four of a kind
     elif type_of_hand == 8:
@@ -203,7 +203,7 @@ def tie_breaker(type_of_hand, hand1, hand2, counts_card1, counts_card2):
         else:
             return 2
     # Hand is full house or three of kind
-    elif type_of_hand ==4 or type_of_hand == 7:
+    elif type_of_hand == 4 or type_of_hand == 7:
         # Can determine winner by comparing value of three of a kind. Must be different.
         if counts_card1[0][0] > counts_card2[0][0]:
             return 1
@@ -216,7 +216,7 @@ def tie_breaker(type_of_hand, hand1, hand2, counts_card1, counts_card2):
     elif type_of_hand == 1:
         return high_card_tie_breaker(hand1, hand2, counts_card1, counts_card2)
     else:
-        print( "Illegal hand type (over nine or less than one")
+        print("Illegal hand type (over nine or less than one")
         return -1
 
 def main():
@@ -234,14 +234,14 @@ def main():
 	# Convert each hand into numeric form
         for i in range(5):
             # Convert the text form of the pip values to numbers, two to 14
-            hand1[i][0] = card_val_convert(  hands[i]  [0])
-            hand2[i][0] = card_val_convert(  hands[i+5][0])
+            hand1[i][0] = card_val_convert(hands[i][0])
+            hand2[i][0] = card_val_convert(hands[i+5][0])
             # Convert values of cards into a one dimensional list
-            hand1_vals [i] = hand1[i][0]
-            hand2_vals [i] = hand2[i][0]
+            hand1_vals[i] = hand1[i][0]
+            hand2_vals[i] = hand2[i][0]
             # Convert card suit to numeric values, zero to three
-            hand1[i][1] = card_suit_convert( hands[i]  [1])
-            hand2[i][1] = card_suit_convert( hands[i+5][1])
+            hand1[i][1] = card_suit_convert(hands[i][1])
+            hand2[i][1] = card_suit_convert(hands[i+5][1])
         hand1.sort(reverse=True)
         hand2.sort(reverse=True)
 	# Create a counter (hash table) that counts how many of each card value in each hand
@@ -249,17 +249,17 @@ def main():
         cards2 = collections.Counter()
         for each_card in hand1_vals:
             # Increment count of hash table value for card values in hand1
-            cards1 [each_card] += 1
+            cards1[each_card] += 1
         for each_card in hand2_vals:
             # Increment count of hash table value for card values in hand2
-            cards2 [each_card] += 1
+            cards2[each_card] += 1
         # Convert the counter into a dictionary, and sort by most common appearing,
 	# card value and return as a list
-        counts_card1 = sorted(cards1.items(), key=operator.itemgetter(1),reverse=True)
-        counts_card2 = sorted(cards2.items(), key=operator.itemgetter(1),reverse=True)
-        # print ("Hand 1 is", hand1, ", Hand 2 is", hand2)
-        print ("Hand 1 type is", DEBUG_HAND_TYPE_STRING[hand_type(hand1, counts_card1)], "   "
-               "Hand 2 type is", DEBUG_HAND_TYPE_STRING[hand_type(hand2, counts_card2)] )
+        counts_card1 = sorted(cards1.items(), key=operator.itemgetter(1), reverse=True)
+        counts_card2 = sorted(cards2.items(), key=operator.itemgetter(1), reverse=True)
+        # print("Hand 1 is", hand1, ", Hand 2 is", hand2)
+        print("Hand 1 type is", DEBUG_HAND_TYPE_STRING[hand_type(hand1, counts_card1)], "   "
+               "Hand 2 type is", DEBUG_HAND_TYPE_STRING[hand_type(hand2, counts_card2)])
         if hand_type(hand1, counts_card1) > hand_type(hand2, counts_card2):
             print("Hand 1 wins")
             hand1_wins += 1
@@ -267,7 +267,7 @@ def main():
             if tie_breaker(hand_type(hand1, counts_card1), hand1, hand2, counts_card1, counts_card2) == 1:
                 print("Hand 1 wins")
                 hand1_wins += 1
-    print ( "Hand 1 wins", hand1_wins, "times." )
+    print("Hand 1 wins", hand1_wins, "times.")
 
 
 
