@@ -1,5 +1,3 @@
-__author__ = 'rzucker'
-
 # This Python program solves Project Euler problem #54.
 # It reads in a file with two poker hands per line and determines
 # how many are won by hand one. There are no ties.
@@ -7,6 +5,9 @@ __author__ = 'rzucker'
 # Much of the code is not as efficient as could be. It was written
 # with understanding and maintainability in mind. Parts of the code
 # are described in the adjacent file outline.vim
+__author__ = 'rzucker'
+
+# pylint: disable=C0303
 
 import collections
 import operator
@@ -38,12 +39,15 @@ DEBUG_HAND_TYPE_STRING = {9:"Straight Flush",
                           2:"One Pair",
                           1:"High Card"}
 
-# Returns true if hand is a straight
 def straight(hand):
-    # hand is a two dimension array, 5x2, with a single hand
-    # hand is assumed to already sorted by value from high to low
-    # Therefore, can determine if it is a straight by making sure next card is one less than previous
-    #
+    '''Returns true if hand is a straight
+
+    hand is a two dimension array, 5x2, with a single hand
+    hand is assumed to already sorted by value from high to low
+    Therefore, can determine if it is a straight by making sure next card is
+    one less than previous
+    '''
+
     # last_card is set to highest
     last_card = hand[0][0]
     for i in range(1,5):
