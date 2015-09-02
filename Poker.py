@@ -267,4 +267,8 @@ def main():
 
 
 
-main()
+# Check for interactive session
+if __name__ == '__main__':
+    # execute main program
+    main()
+
