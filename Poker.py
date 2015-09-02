@@ -1,13 +1,13 @@
-# This Python program solves Project Euler problem #54.
-# It reads in a file with two poker hands per line and determines
-# how many are won by hand one. There are no ties.
-# 
-# Much of the code is not as efficient as could be. It was written
-# with understanding and maintainability in mind. Parts of the code
-# are described in the adjacent file outline.vim
-__author__ = 'rzucker'
+#
+'''This Python program solves Project Euler problem #54.
+It reads in a file with two poker hands per line and determines
+how many are won by hand one. There are no ties.
 
-# pylint: disable=C0303
+Much of the code is not as efficient as could be. It was written
+with understanding and maintainability in mind. Parts of the code
+are described in the adjacent file outline.vim
+'''
+__author__ = 'rzucker'
 
 import collections
 import operator
@@ -73,12 +73,12 @@ def flush(hand):
     return True
 
 
-# Call the straight and flush functions. Could save computation by using a combined function
 def straight_flush(hand):
-    # to figure out all three, but this is clearer
-    if straight(hand) and flush(hand):
-        return True
-    return False
+    '''Call the straight and flush functions.
+    Could save computation by using a combined function
+    to figure out all three, but this is clearer
+    '''
+    return straight(hand) and flush(hand)
 
 
 def card_val_convert(card):
