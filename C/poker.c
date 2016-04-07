@@ -14,16 +14,21 @@
    from the file. Just an excuse to demonstrate that I know how to use enums. */
 enum card_suits { clubs, diamonds, hearts, spades };
 
+/* Struct for a card in a hand */
 typedef struct {
            int  pip;
            enum card_suits suit;
 } t_card;
 
+/* Struct used to count the occurence of a pip value. Will be sorted to help
+   determine the type of hand. */
 typedef struct {
            int pip;
            int count;
 } t_card_count;
-        
+
+/* String used in converting text of hand to numeric values.
+   Card value is index within this string. */
 char* CARD_VALS = "0123456789TJQKA";
 
 /* Define the hand types, from highest to lowest */
