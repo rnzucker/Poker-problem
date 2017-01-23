@@ -6,7 +6,8 @@ how many are won by hand one. There are no ties.
 
 Much of the code is not as efficient as could be. It was written
 with understanding and maintainability in mind. Parts of the code
-are described in the adjacent file outline.vim
+are described in the adjacent file outline.vim. In future will
+create a version using classes.
 """
 from collections import Counter
 from operator import itemgetter
