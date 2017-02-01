@@ -1,4 +1,5 @@
-﻿using System;
+﻿/* Same as previous C# version, but uses properties on the card definition. */
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
