@@ -66,12 +66,12 @@ class Card:
     #     self.m_pip  = self.CARD_VALS.find(pip)
     #     self.m_suit = self.SUIT_VALS.find(suit)
 
-    def __lt__(self, other)
+    def __lt__(self, other):
         """ Overload of 'less than' for two cards
         """
         return self.m_pip < other.m_pip
 
-    def __gt__(self, other)
+    def __gt__(self, other):
         """ Overload of 'greater than' for two cards
         """
         return self.m_pip > other.m_pip
