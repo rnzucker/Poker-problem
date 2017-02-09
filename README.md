@@ -1,5 +1,5 @@
 # Poker-problem
 Code to solve Project Euler problem #54
-Problem is now solved, but code is still being documented better, and
-potentially structured better.
-Also created a C version in a sub-directory
+This was originally written in Python. Then I coded a C and a C# solution.
+Each of those are in their own sub-directory.
+Then I added a Python version that used classes, which is the better Python one to use.
