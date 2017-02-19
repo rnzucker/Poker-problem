@@ -44,6 +44,9 @@ char* CARD_VALS = "0123456789TJQKA";
 
 int hand_pip_compare (first_elem, second_elem)
     const void *first_elem, *second_elem;
+    /* Function used for comparision in call to qsort.
+       Two pointers to t_card are passed in. 
+       Sorted based upon pip values. */
     {
         /* Do a descending sort */
         int first, second;
@@ -60,6 +63,10 @@ int hand_pip_compare (first_elem, second_elem)
 
 int card_count_pip_compare (first_elem, second_elem)
     const void *first_elem, *second_elem;
+    /* Function used for comparision in call to qsort.
+       Two pointers to t_card_count are passed in.
+       Sort based upon how often the pip value occurs,
+       and if equal, then on the pip value. */ 
     {
         int first, second, pip1, pip2;
 
@@ -130,8 +137,7 @@ int count_pips (hand, pip_list)
 _Bool straight (hand)
     t_card *hand;
     {
-        /* 
-        :param hand: an array with a single hand of five elements
+        /* an array with a single hand of five elements is passed in.
         hand is assumed to already sorted by value from high to low
         Therefore, can determine if it is a straight by making sure
         the next card is one less than previous
@@ -155,7 +161,7 @@ _Bool straight (hand)
 _Bool flush(hand)
     t_card *hand;
     {
-        /* :param hand: an array with a single hand of five elements */
+        /* an array with a single hand of five elements */
         
         int i;
         enum card_suits suit;
@@ -175,7 +181,7 @@ _Bool straight_flush(hand)
     t_card *hand;
     {
         /* Call the straight() and flush() functions.
-           :param hand: a 2D array, 5x2, with a single hand
+           an array with a single hand of five elements
            Could save computation by using a combined function to figure out
            all three, but this is clearer
         */
@@ -185,7 +191,9 @@ _Bool straight_flush(hand)
 
 int card_val_convert(pip_value)
     char *pip_value; /* a single string value, from 2 to TJQKA */
-        /* Convert the card value into an integer, two to fourteen. */
+        /* Convert the card value into an integer, two to fourteen.
+           Do this by comparing the location of the character to the
+           beginning of the string using strchr() and subtracting pointers. */
     {
         char *finder;
 
@@ -194,7 +202,8 @@ int card_val_convert(pip_value)
     }
 
 enum card_suits card_suit_convert(card_suit)
-    char card_suit; /* :param card: a single character value, one of C, D, H, or S */
+    char card_suit; 
+    /* a single character value, one of C, D, H, or S, is passed in */
     {
         
         switch (card_suit) {
@@ -217,7 +226,7 @@ int num_vals (card_counts, max_cnt)
     int *max_cnt;
     {
         /* Count how many unique values are in a hand using the card_counts array
-           Also how many times does the most frequent pip value occur */
+           Also how many times does the most frequent pip value occur is in max_cnt. */
         int i, count;
 
         count    = 0;
@@ -241,10 +250,10 @@ int hand_type (hand, unique_vals, how_often)
     int how_often;
     {
         /* Determines the type of hand.
-        :param hand: an array of five elments of type card
-        :param unique_vals: the number of unique pip values in the hand
-        :param how_often: how often the most frequent pip value occurs
-        :return: encodedhand type values (defined using #define)
+        passed in hand, an array of five elments of type card,
+        unique_vals, the number of unique pip values in the hand, and
+        how_often, how often the most frequent pip value occurs.
+        It returns an encoded hand type value (defined using #define)
         Leverages straight() and flush() functions
         */
         /* If there are five unique card values, then it is one of straight, flush,
@@ -290,9 +299,9 @@ int two_pair_tie_breaker(pip_list1, pip_list2)
     t_card_count pip_list1 [5], pip_list2 [5];
     /* Determine the winner when both hands have two pair. It's complicated enough
        to need its own function.
-       :param pip_list1: array of struct with pip values and frequency counts for hand1
-       :param pip_list2: array of struct with pip values and frequency counts for hand2
-       :return: number of winning hand
+       Passed in are two arrays of struct with pip values and frequency counts for hand,
+       one for each hand.
+       Returned is the number of the winning hand
      */
      {
         /* Check to see who has the highest two pair */
@@ -322,11 +331,10 @@ int one_pair_tie_breaker(hand1, hand2, pip_list1, pip_list2)
     {
     /* Determine the winner when both hands have one pair. It's complicated enough
        to need its own function.
-       :param hand1: an array of five elments of type card
-       :param hand2: an array of five elments of type card
-       :param pip_list1: array of struct with pip values and frequency counts for hand1
-       :param pip_list2: array of struct with pip values and frequency counts for hand2
-       :return: number of winning hand
+       Passed in are two arrays of struct with pip values and frequency counts for hand,
+       one for each hand, and an array of struct with pip values and frequency counts for
+       each hand.
+       Returned is the number of the winning hand
      */
         
         int i;
@@ -354,9 +362,8 @@ int high_card_tie_breaker(hand1, hand2)
     t_card hand1 [5], hand2 [5];
     {
     /* Determine the winner when just high card. Has enought steps to need its own funtion.
-       :param hand1: an array of five elments of type card
-       :param hand2: an array of five elments of type card
-       :return: number of winning hand
+       Two arrays of t_card are passed in
+       Returned is the number of the winning hand
      */
         int i;
         
@@ -376,13 +383,13 @@ int tie_breaker (type_of_hand, hand1, hand2, pip_list1, pip_list2)
     t_card hand1 [5], hand2 [5];
     t_card_count pip_list1 [5], pip_list2 [5];
     /* Determine the winner when both hands have one pair. It's complicated enough
-       to need its own function.
-       :param type_of_hand: encoding of hand type
-       :param hand1: an array of five elments of type card
-       :param hand2: an array of five elments of type card
-       :param pip_list1: array of struct with pip values and frequency counts for hand1
-       :param pip_list2: array of struct with pip values and frequency counts for hand2
-       :return: number of winning hand
+       to need its own function. Passed in are:
+       type_of_hand: encoding of hand type
+       hand1: an array of five elments of type card
+       hand2: an array of five elments of type card
+       pip_list1: array of struct with pip values and frequency counts for hand1
+       pip_list2: array of struct with pip values and frequency counts for hand2
+       Returned is the number of winning hand
      */
     {
         /* If the hand is a flush, straight, or straight flush */
@@ -475,9 +482,9 @@ int main()
             qsort (&hand2, 5, sizeof(t_card), hand_pip_compare);
             /* Figure out how often each pip value occurs */
             unique_vals = count_pips (hand1, pip_list1);
-            hand1_type = hand_type (hand1, unique_vals, pip_list1 [0].count);
+            hand1_type  = hand_type (hand1, unique_vals, pip_list1 [0].count);
             unique_vals = count_pips (hand2, pip_list2);
-            hand2_type = hand_type (hand2, unique_vals, pip_list2 [0].count);
+            hand2_type  = hand_type (hand2, unique_vals, pip_list2 [0].count);
             printf ("Hand 1 type: %d, Hand 2 type: %d\n", hand1_type, hand2_type);
             if (hand1_type > hand2_type) {
                 printf ("Hand 1 wins\n");
@@ -488,18 +495,7 @@ int main()
                     hand1_wins += 1;
                 }
             }
-            /* Put rest of processing in here.
-            Need to do sort. Probably create the pip_list */
+
         }
         printf ("\nHand 1 wins %d times\n", hand1_wins);
-        /*
-        
-        # Determine the winning hand
-        # If different types of hands, the higher encoding wins
-        else if hand1_type == hand2_type:
-            # Hand types are the same. Call the tie breaking routine
-            if tie_breaker(hand1_type, hand1, hand2, counts_card1, counts_card2) == 1:
-                print("Hand 1 wins")
-                hand1_wins += 1
-    */
     }
