@@ -1,5 +1,7 @@
 __author__ = 'rzucker'
 
+# THIS VERSION HAS BEEN SUPERSEDED BY THE ONE IN THE Py-classes directory
+
 # This Python program solves Project Euler problem #54.
 # It reads in a file with two poker hands per line and determines
 # how many are won by hand one. There are no ties.
