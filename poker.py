@@ -1,6 +1,8 @@
 # coding=utf-8
 """This Python program solves Project Euler problem #54.
 
+# THIS VERSION HAS BEEN SUPERSEDED BY THE ONE IN THE Py-classes directory
+
 Program reads in a file with two poker hands per line and determines
 how many are won by hand one. There are no ties.
 
