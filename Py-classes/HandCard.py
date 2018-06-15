@@ -102,7 +102,7 @@ class Hand:
         self.m_pip_count[0].m_count = 1
 
         for i in range(5):
-            # Could use a nested look, but with small number, just went for an if-else
+            # Could use a nested loop, but with small number, just went for an if-else
             if self.m_hand[i].m_pip == self.m_pip_count[0].m_pip:
                 self.m_pip_count[0].m_count += 1
             elif self.m_hand[i].m_pip == self.m_pip_count[1].m_pip:
