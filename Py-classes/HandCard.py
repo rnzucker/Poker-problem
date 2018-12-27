@@ -36,9 +36,6 @@ DEBUG_HAND_TYPE_STRING = {9: "Straight Flush",
 
 
 class Card:
-    m_pip  = -1
-    m_suit = -1
-
     CARD_VALS = "_123456789TJQKA"  # Used for converting the card values to 2..14
     SUIT_VALS = "CDHS"             # Used for converting suits to 0..3
 
@@ -48,7 +45,7 @@ class Card:
 
     @m_pip.setter
     def m_pip (self, pip):
-        self.m_pip = self.CARD_VALS.find(pip)
+        self.m_pip = Card.CARD_VALS.find(pip)
 
     @property
     def m_suit (self):
@@ -56,15 +53,19 @@ class Card:
 
     @m_suit.setter
     def m_suit (self, suit):
-        self.m_suit = self.SUIT_VALS.find(suit)
+        self.m_suit = Card.SUIT_VALS.find(suit)
 
-    # def __init__(self, pip, suit):
+    # def __init__(self, pip = -1, suit = -1):
     #     """ Initializes a card value, converting from characters to the numeric encoding
     #     :param pip:  A character read from the file that is the card's value
     #     :param suit: A character read from the file that indicates the card's suit
     #     """
-    #     self.m_pip  = self.CARD_VALS.find(pip)
-    #     self.m_suit = self.SUIT_VALS.find(suit)
+    #     if (pip != -1):
+    #         self.m_pip  = Card.CARD_VALS.find(pip)
+    #         self.m_suit = Card.SUIT_VALS.find(suit)
+    #     else:
+    #         self.m_pip  = -1
+    #         self.m_suit = -1
 
     def __lt__(self, other):
         """ Overload of 'less than' for two cards
@@ -81,16 +82,18 @@ class Card:
         """
         return self.m_pip == other.m_pip
 
+class PipCount:
+
+    def __init__(self):
+        m_pip = 0
+        m_count = 0
 
 class Hand:
 
-    class PipCount:
-        m_pip   = 0
-        m_count = 0
-
-    m_pip_count = [PipCount() for _ in range(5)]
-    m_hand = [Card() for _ in range(5)]
-    m_unique_vals = 0
+    def __init__(self):
+        m_pip_count = [PipCount() for _ in range(5)]
+        m_hand = [Card() for x in range(5)]
+        m_unique_vals = 0
 
     def count_pips(self):
         """This routine calculates how often each pip value occurs in the hand.
