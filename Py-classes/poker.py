@@ -6,8 +6,6 @@ how many are won by hand one. There are no ties.
 
 This is a rewrite of the original solution, but using classes
 """
-from collections import Counter
-from operator import itemgetter
 import HandCard
 
 
@@ -51,11 +49,6 @@ def main():
     """
 
     hand1_wins = 0
-    # Create a two dimensional array for hand1 and hand2
-    # One for suit, one for value for each of five cards in a hand
-    # This will get reinitialized each time through the loop
-    hand1 = [[0]*2 for _ in range(5)]
-    hand2 = [[0]*2 for _ in range(5)]
     # Each line is one pair of poker hands
     for line in open('poker.txt'):
         # Use rstrip() to get rid of \n at the end
@@ -65,11 +58,13 @@ def main():
         # Convert each hand into numeric form
         for i in range(5):
             # Assign into hand data structure. Init routine of card will convert values
-            hand1[i].m_hand[i] = HandCard.Card(hands[i][0],   hands[i][1])
-            hand2[i].m_hand[i] = HandCard.Card(hands[i+5][0], hands[i+5][1])
+            hand1.m_hand[i].m_pip = hands[i][0]
+            hand1.m_hand[i].m_suit = hands[i][1]
+            hand2.m_hand[i].m_pip = hands[i+5][0]
+            hand2.m_hand[i].m_suit = hands[i+5][1]
         # Sort each hand into descending order
-        hand1.Card.sort(reverse=True)
-        hand2.Card.sort(reverse=True)
+        hand1.m_hand.sort(reverse=True)
+        hand2.m_hand.sort(reverse=True)
 
         # Figure out how often each pip value occurs in each hand, and order by most frequent occurence
         hand1.count_pips()
@@ -86,7 +81,7 @@ def main():
             hand1_wins += 1
         elif hand1_type == hand2_type:
             # Hand types are the same. Call the tie breaking routine
-            if hand1.tie_breaker(hand1_type, hand1, hand2) == 1:
+            if hand1.tie_breaker(hand1_type, hand2) == 1:
                 print("Hand 1 wins")
                 hand1_wins += 1
     print("\nHand 1 wins", hand1_wins, "times.")
