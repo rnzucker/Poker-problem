@@ -23,17 +23,6 @@ HAND_TYPE_VALS = {'Straight Flush': 9,
                   'One Pair':       2,
                   'High Card':      1}
 
-# This dictionary is just used to make it easier to code debug messages when needed
-DEBUG_HAND_TYPE_STRING = {9: "Straight Flush",
-                          8: "4 of a Kind",
-                          7: "Full House",
-                          6: "Flush",
-                          5: "Straight",
-                          4: "3 of a Kind",
-                          3: "Two Pair",
-                          2: "One Pair",
-                          1: "High Card"}
-
 
 class Card:
     CARD_VALS = "_123456789TJQKA"  # Used for converting the card values to 2..14
@@ -55,34 +44,23 @@ class Card:
     def m_suit (self, suit):
         self._m_suit = Card.SUIT_VALS.find(suit)
 
-    # def __init__(self, pip = -1, suit = -1):
-    #     """ Initializes a card value, converting from characters to the numeric encoding
-    #     :param pip:  A character read from the file that is the card's value
-    #     :param suit: A character read from the file that indicates the card's suit
-    #     """
-    #     if (pip != -1):
-    #         self.m_pip  = Card.CARD_VALS.find(pip)
-    #         self.m_suit = Card.SUIT_VALS.find(suit)
-    #     else:
-    #         self.m_pip  = -1
-    #         self.m_suit = -1
-
     def __lt__(self, other):
-        """ Overload of 'less than' for two cards
+        """ Overload of 'less than' for comparison of two cards
         """
         return self._m_pip < other._m_pip
 
     def __gt__(self, other):
-        """ Overload of 'greater than' for two cards
+        """ Overload of 'greater than' for comparison of two cards
         """
         return self._m_pip > other._m_pip
 
     def __eq__(self, other):
-        """ Overload of equal for two cards
+        """ Overload of equal for comparison of two cards
         """
         return self._m_pip == other._m_pip
 
 class PipCount:
+# Class used to keep track of the count of how often each pip value occurs in a hand
 
     def __init__(self):
         self.m_pip = 0
@@ -106,6 +84,8 @@ class PipCount:
 class Hand:
 
     def __init__(self):
+        # A hand variable has five cards, a variable indicating how many unique values there are in the hand,
+        # and the PipCount array that says how often each pip value occurs in a hand.
         self.m_pip_count = [PipCount() for _ in range(5)]
         self.m_hand = [Card() for x in range(5)]
         self.m_unique_vals = 0
@@ -114,7 +94,8 @@ class Hand:
         """This routine calculates how often each pip value occurs in the hand.
         It also figures out how many different unique pip values there (m_unique_vals.)
         Finally, it sorts the list for most frequently occuring pip to least occuring.
-        Be aware that if there are any pairs (or above) there will be entries with zero.
+        Be aware that if there are any pairs (or above) there will be PipCount entries
+        with a value of zero.
         """
         self.m_pip_count[0].m_pip   = self.m_hand[0].m_pip
         self.m_pip_count[0].m_count = 1
@@ -142,7 +123,6 @@ class Hand:
 
     def straight(self):
         """Returns true if hand is a straight.
-
         """
 
         # last_card is set to highest
@@ -175,27 +155,6 @@ class Hand:
         """
 
         return self.straight() and self.flush()
-
-    # def card_val_convert(card):
-    #     """Convert the card value into an integer, two to fourteen.
-    #
-    #     :param card: a single string value, from 2 to TJQKA
-    #     Use string find method on CARD_VALS list
-    #     """
-    #
-    #     card_val = CARD_VALS.find(card)
-    #     return card_val
-    #
-    #
-    # def card_suit_convert(card):
-    #     """Convert the suit into an integer, zero to three.
-    #
-    #     :param card: a single string value, one of C, D, H, or S
-    #     """
-    #
-    #     card_suit_num = SUIT_VALS.find(card)
-    #     return card_suit_num
-
 
     def hand_type(self):
         """Determines the type of hand.
@@ -239,8 +198,8 @@ class Hand:
     def two_pair_tie_breaker(self, hand2):
         """Determine the winner when both hands have two pair. It's complicated enough to need its own function.
 
-        :param counts_card1: list of tupes with pip values and frequency counts for hand1
-        :param counts_card2: list of tupes with pip values and frequency counts for hand2
+        :param self: hand1
+        :param hand2: second hand for comparison
         :return: number of winning hand
         """
         # Check to see who has the highest two pair
@@ -266,8 +225,8 @@ class Hand:
     def one_pair_tie_breaker(self, hand2):
         """Determine the winner when both hands have one pair. It's complicated enough to need its own function.
 
-        :param self: a 2D array, 5x2, for hand1
-        :param hand2: a 2D array, 5x2, for hand2
+        :param self: hand1
+        :param hand2: second hand for comparison
         :return: number of winning hand
         """
 
@@ -292,8 +251,8 @@ class Hand:
     def high_card_tie_breaker(self, hand2):
         """Determine the winner when just high card. Has enought steps to need its own funtion.
 
-        :param self: a 2D array, 5x2, for hand1
-        :param hand2: a 2D array, 5x2, for hand2
+        :param self: hand1
+        :param hand2: second hand for comparison
         :return: number of winning hand
         """
 
@@ -320,7 +279,9 @@ class Hand:
         """
 
         # If the hand is a flush, straight, or straight flush
-        if type_of_hand == 9 or type_of_hand == 6 or type_of_hand == 5:
+        if type_of_hand == HAND_TYPE_VALS['Straight Flush'] or \
+                type_of_hand == HAND_TYPE_VALS['Flush'] or \
+                type_of_hand == HAND_TYPE_VALS['Straight']:
             # Can determine by comparing the highest card in each hand
             if self.m_hand[0].m_pip > hand2.m_hand[0].m_pip:
                 print("Hand1 wins")
@@ -332,7 +293,7 @@ class Hand:
                 return -1
 
         # Hand is four of a kind
-        elif type_of_hand == 8:
+        elif type_of_hand == HAND_TYPE_VALS['4 Kind']:
             # Card values in a four of a kind are unique. Just compare them
             if self.m_pip_count[0].m_pip  > hand2.m_pip_count[0].m_pip:
                 return 1
@@ -340,20 +301,20 @@ class Hand:
                 return 2
 
         # Hand is full house or three of kind
-        elif type_of_hand == 4 or type_of_hand == 7:
+        elif type_of_hand == HAND_TYPE_VALS['3 Kind'] or type_of_hand == HAND_TYPE_VALS['Full House']:
             # Can determine winner by comparing value of three of a kind. Must be different.
             if self.m_pip_count[0].m_pip  > hand2.m_pip_count[0].m_pip:
                 return 1
             else:
                 return 2
         # Two pair
-        elif type_of_hand == 3:
+        elif type_of_hand == HAND_TYPE_VALS['Two Pair']:
             return self.two_pair_tie_breaker(hand2)
         # One pair
-        elif type_of_hand == 2:
+        elif type_of_hand == HAND_TYPE_VALS['One Pair']:
             return self.one_pair_tie_breaker(hand2)
         # High card
-        elif type_of_hand == 1:
+        elif type_of_hand == HAND_TYPE_VALS['High Card']:
             return self.high_card_tie_breaker(hand2)
         else:
             print("Illegal hand type (over nine or less than one")

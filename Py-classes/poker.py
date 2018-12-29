@@ -51,7 +51,7 @@ def main():
     hand1_wins = 0
     # Each line is one pair of poker hands
     for line in open('poker.txt'):
-        # Use rstrip() to get rid of \n at the end
+        # Use rstrip() to get rid of \n at the end. Splits each card into two character string
         hands = line.rstrip().split(" ")
         hand1 = HandCard.Hand()
         hand2 = HandCard.Hand()
@@ -66,7 +66,7 @@ def main():
         hand1.m_hand.sort(reverse=True)
         hand2.m_hand.sort(reverse=True)
 
-        # Figure out how often each pip value occurs in each hand, and order by most frequent occurence
+        # Figure out how often each pip value occurs in each hand, and order by most frequent occurrence
         hand1.count_pips()
         hand2.count_pips()
         hand1_type = hand1.hand_type()
